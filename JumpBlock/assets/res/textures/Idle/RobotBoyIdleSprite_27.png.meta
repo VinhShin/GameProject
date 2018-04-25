@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "718d4ea3-bfc2-496c-b96d-4e0e282695c6",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "RobotBoyIdleSprite_27": {
+      "ver": "1.0.3",
+      "uuid": "6220543c-9ea0-46e6-bd2b-5a918da1285c",
+      "rawTextureUuid": "718d4ea3-bfc2-496c-b96d-4e0e282695c6",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 87,
+      "height": 220,
+      "rawWidth": 87,
+      "rawHeight": 220,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

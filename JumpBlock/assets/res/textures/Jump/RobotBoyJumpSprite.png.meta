@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "4dc395d4-fe74-43cf-b430-c9d623b68d9a",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "RobotBoyJumpSprite": {
+      "ver": "1.0.3",
+      "uuid": "735ca176-e2a1-46e8-be3f-d336c24295a2",
+      "rawTextureUuid": "4dc395d4-fe74-43cf-b430-c9d623b68d9a",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -58.5,
+      "offsetY": 474.5,
+      "trimX": 72,
+      "trimY": 11,
+      "width": 1787,
+      "height": 1077,
+      "rawWidth": 2048,
+      "rawHeight": 2048,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
