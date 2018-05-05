@@ -8,6 +8,13 @@ export default class NewClass extends cc.Component {
     @property(cc.Canvas) canvas: cc.Canvas = null;
     @property(cc.Prefab) prefabSnake: cc.Prefab = null;
 
+    //Arrow
+    @property(cc.Node) left: cc.Node = null;
+    @property(cc.Node) right: cc.Node = null;
+    @property(cc.Node) up: cc.Node = null;
+    @property(cc.Node) down: cc.Node = null;
+
+
     Snake: cc.Node[] = [];
     timer: number;
 
@@ -63,7 +70,7 @@ export default class NewClass extends cc.Component {
             && touch.getLocationX() <= s.getPositionX() + s.width 
             && touch.getLocationY() >= s.getPositionY() 
             && touch.getLocationY() <= s.getPositionY() + s.height) {
-                cc.log("Touch");
+
                     this.Snake.reverse();
                     if (this.Snake[0].getPositionX() > this.Snake[1].getPositionX()) {
                         this.direction = Direction.RIGHT;
@@ -81,9 +88,10 @@ export default class NewClass extends cc.Component {
             }
         }
 
-        if (touch.getLocationX() < cc.director.getWinSize().width / 2  
-        && touch.getLocationY() < cc.director.getWinSize().height - 240 
-        && touch.getLocationY() > 0 + 240
+        if (touch.getLocationX() >= .getPositionX() 
+        && touch.getLocationX() <= s.getPositionX() + s.width 
+        && touch.getLocationY() >= s.getPositionY() 
+        && touch.getLocationY() <= s.getPositionY() + s.height
         && this.direction != Direction.RIGHT) {
             
             this.direction = Direction.LEFT;
@@ -175,11 +183,11 @@ export default class NewClass extends cc.Component {
                     break;
             }
 
-            if (this.Snake[0].y >= cc.director.getWinSize().height) {
+            if (this.Snake[0].y >= 640) {
                 this.Snake[0].y = 0;
             }
             else if (this.Snake[0].y < 0) {
-                this.Snake[0].y = cc.director.getWinSize().height - 32;
+                this.Snake[0].y = 640 - 32;
             }
             else if (this.Snake[0].x < 0) {
                 this.Snake[0].x = cc.director.getWinSize().width - 32;
