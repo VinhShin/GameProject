@@ -28,8 +28,8 @@ export default class JumpBlock extends cc.Component {
         this.width = cc.rand() % 120 + 40;
         this.height = 30;
         
-        this.posX = (cc.rand() % (cc.director.getWinSize().width/2) + cc.director.getWinSize().width /8 - this.width) * cc.randomMinus1To1();
-        this.posY = cc.rand() % (cc.director.getWinSize().height/2)* cc.randomMinus1To1() + cc.director.getWinSize().height /8;
+        this.posX = (cc.rand() % (cc.director.getWinSize().width/2) + cc.director.getWinSize().width /8 - this.width);
+        this.posY = (cc.rand() % (cc.director.getWinSize().height/2) + cc.director.getWinSize().height /7- this.height)* cc.randomMinus1To1();
     }
     spamBlock()
     {

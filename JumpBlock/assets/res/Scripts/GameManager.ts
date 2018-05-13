@@ -1,4 +1,5 @@
 const {ccclass, property} = cc._decorator;
+import Block from './Block'
 
 @ccclass
 export default class GameManager extends cc.Component {
@@ -6,7 +7,7 @@ export default class GameManager extends cc.Component {
     @property(cc.Canvas) canvas: cc.Canvas = null;
     @property(cc.Node) player: cc.Node = null;
     @property(cc.Prefab) block: cc.Prefab = null;
-
+    @property(cc.Graphics) g: cc.Graphics = null;
     jump: number;
     isTouch = false;
 
@@ -23,6 +24,7 @@ export default class GameManager extends cc.Component {
         this.isTouch = false;
         this.distanceWithBlock_X = 0;
         var _block = cc.instantiate(this.block);
+        this.g.
         this.canvas.node.addChild(_block);
         _block.setPosition(cc.rand() % (cc.director.getWinSize().width / 3) * cc.randomMinus1To1(), 
         cc.rand() % (cc.director.getWinSize().width / 2) * cc.randomMinus1To1());
