@@ -10,7 +10,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "meteor",
+    "_name": "circle",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -19,24 +19,18 @@
     "_components": [
       {
         "__id__": 2
-      },
-      {
-        "__id__": 3
-      },
-      {
-        "__id__": 4
       }
     ],
     "_prefab": {
-      "__id__": 5
+      "__id__": 3
     },
     "_id": "",
-    "_opacity": 255,
+    "_opacity": 188.7,
     "_color": {
       "__type__": "cc.Color",
       "r": 255,
       "g": 255,
-      "b": 255,
+      "b": 30,
       "a": 255
     },
     "_cascadeOpacityEnabled": true,
@@ -47,24 +41,24 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 36,
-      "height": 36
+      "width": 50,
+      "height": 50
     },
     "_rotationX": 0,
     "_rotationY": 0,
-    "_scaleX": 1,
-    "_scaleY": 1,
+    "_scaleX": 0.53,
+    "_scaleY": 0.53,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 166,
-      "y": 138
+      "x": -122,
+      "y": 305
     },
     "_skewX": 0,
     "_skewY": 0,
     "_localZOrder": 0,
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
-    "groupIndex": 1
+    "groupIndex": 0
   },
   {
     "__type__": "cc.Sprite",
@@ -74,9 +68,11 @@
       "__id__": 1
     },
     "_enabled": true,
-    "_spriteFrame": null,
+    "_spriteFrame": {
+      "__uuid__": "bb8c3d48-c74f-41cd-8bea-f8bb4eaac078"
+    },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -91,39 +87,14 @@
     "_atlas": null
   },
   {
-    "__type__": "6cecfHHjftALLWbiFxkqGSf",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true
-  },
-  {
-    "__type__": "cc.CircleCollider",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "tag": 0,
-    "_offset": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_radius": 19.3
-  },
-  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "4165eabb-1db9-4144-8c8d-dca9bdc0963e"
+      "__uuid__": "cffe3863-126a-4b7f-9f57-34e71bed9bf2"
     },
-    "fileId": "f27pgYHydGkYGZZmf61mD2",
+    "fileId": "bevrHr4XhPhJEZHDvx7Mhf",
     "sync": false
   }
 ]
