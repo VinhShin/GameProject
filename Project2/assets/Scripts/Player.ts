@@ -35,7 +35,7 @@ export default class NewClass extends cc.Component {
     onCollisionEnter(other) {
         if (other.node.group == "spikes") {
             this.isPlay = false;
-            game.prototype.gameOver();
+            // game.prototype.gameOver();
             if (this.states == States.Left) {
                 this.states = States.Right;
             }
