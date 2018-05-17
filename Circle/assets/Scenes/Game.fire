@@ -663,7 +663,7 @@
     "_angularDamping": 0,
     "_linearVelocity": {
       "__type__": "cc.Vec2",
-      "x": 500,
+      "x": -500,
       "y": 0
     },
     "_angularVelocity": 0,

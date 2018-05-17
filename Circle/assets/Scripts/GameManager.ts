@@ -1,5 +1,7 @@
 const {ccclass, property} = cc._decorator;
 
+enum Dir {LEFT, RIGHT, TOP, DOWN};
+
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -21,8 +23,13 @@ export default class NewClass extends cc.Component {
     count: number;
     timer: number;
     timerScale: number;
-    wallContainer: cc.Node[] = [];
     score: number;
+
+    wallLeft: cc.Node;
+    wallRight: cc.Node;
+    wallTop: cc.Node;
+    wallBot: cc.Node;
+    size: number;
         
     onLoad() {
         // init logic
@@ -55,10 +62,10 @@ export default class NewClass extends cc.Component {
         wall4.getChildByName("top").active = true;
         wall4.getChildByName("bot").active = true;
 
-        this.wallContainer.push(wall1);
-        this.wallContainer.push(wall2);
-        this.wallContainer.push(wall3);
-        this.wallContainer.push(wall4);
+        this.wallRight = wall1;
+        this.wallTop = wall2;
+        this.wallBot = wall3;
+        this.wallLeft = wall4;
     }
 
     start() {
@@ -74,6 +81,7 @@ export default class NewClass extends cc.Component {
         this.labelScore.string = "0";
         this.labelScore.node.zIndex = 1;
         this.score = 0;
+        this.size = 16;
 
         this.player.getComponent("Player").callbackCollider = this.gainScore.bind(this);
     }
@@ -116,7 +124,7 @@ export default class NewClass extends cc.Component {
 
     update(dt) {
         this.timerScale += dt;
-        if (this.timerScale >= 5) {
+        if (this.timerScale >= 500) {
             this.player.scale += 0.2;
             if (this.player.scale >= 3.4) {
                 this.player.getComponent(cc.RigidBody).linearVelocity = new cc.Vec2(0, 0);
@@ -149,17 +157,146 @@ export default class NewClass extends cc.Component {
         this.labelScore.string = this.score.toString();
         this.timerScale = 0;
 
-        if (this.player.x + this.player.getComponent(cc.CircleCollider).radius >= this.canvas.node.width / 2 - 32) {
+        for (let b of this.blockContainer) {
+            b.active = false;
+        }
+
+        var dir: Dir;
+
+        if (this.player.x + this.player.getComponent(cc.CircleCollider).radius >= this.canvas.node.width / 2) {
             this.player.setPositionX(this.player.getPositionX() - this.canvas.node.width + this.player.getComponent(cc.CircleCollider).radius + 16);
+            dir = Dir.RIGHT;
         }
-        else if (this.player.x - this.player.getComponent(cc.CircleCollider).radius <= -this.canvas.node.width / 2 + 32) {
+        else if (this.player.x - this.player.getComponent(cc.CircleCollider).radius <= -this.canvas.node.width / 2) {
             this.player.setPositionX(this.player.getPositionX() + this.canvas.node.width - this.player.getComponent(cc.CircleCollider).radius - 16);
+            dir = Dir.LEFT;
         }
-        else if (this.player.y + this.player.getComponent(cc.CircleCollider).radius >= this.canvas.node.height / 2 - 32) {
+        else if (this.player.y + this.player.getComponent(cc.CircleCollider).radius >= this.canvas.node.height / 2) {
             this.player.setPositionY(this.player.getPositionY() - this.canvas.node.height + this.player.getComponent(cc.CircleCollider).radius + 16);
+            dir = Dir.TOP;
         }
-        else if (this.player.y - this.player.getComponent(cc.CircleCollider).radius <= -this.canvas.node.width / 2 + 32) {
+        else if (this.player.y - this.player.getComponent(cc.CircleCollider).radius <= -this.canvas.node.height / 2) {
             this.player.setPositionY(this.player.getPositionY() + this.canvas.node.height - this.player.getComponent(cc.CircleCollider).radius - 16);
+            dir = Dir.DOWN;
+        }
+
+        this.spawnWall(dir);
+    }
+
+    spawnWall(dir: Dir) {
+        if (dir == Dir.LEFT || dir == Dir.RIGHT) {
+            
+            if (dir == Dir.RIGHT) {
+                this.wallRight.getChildByName("top").active = false;
+                this.wallRight.getChildByName("bot").active = false;
+                
+                this.wallRight.setPosition(this.wallLeft.getPosition());
+                
+                this.wallRight.getChildByName("top").active = true;
+                this.wallRight.getChildByName("bot").active = true;
+                this.wallLeft.destroy();
+                this.wallLeft = this.wallRight;
+                this.wallTop.destroy();
+                this.wallBot.destroy();
+
+                var wRight = cc.instantiate(this.gateVer);
+                this.canvas.node.addChild(wRight);
+                wRight.setPosition(this.canvas.node.width / 2 - this.size, cc.randomMinus1To1() * (cc.rand() % this.canvas.node.height /2));
+                wRight.getChildByName("top").active = true;
+                wRight.getChildByName("bot").active = true;
+                this.wallRight = wRight;
+            }
+            else {
+                this.wallLeft.getChildByName("top").active = false;
+                this.wallLeft.getChildByName("bot").active = false;
+                
+                this.wallLeft.setPosition(this.wallRight.getPosition());
+                cc.log(this.wallLeft.getPosition());
+                
+                this.wallLeft.getChildByName("top").active = true;
+                this.wallLeft.getChildByName("bot").active = true;
+                this.wallRight.destroy();
+                this.wallRight = this.wallLeft;
+                this.wallTop.destroy();
+                this.wallBot.destroy();
+
+                var wLeft = cc.instantiate(this.gateVer);
+                this.canvas.node.addChild(wLeft);
+                wLeft.setPosition(-this.canvas.node.width / 2 + this.size, cc.randomMinus1To1() * (cc.rand() % this.canvas.node.height /2));
+                wLeft.getChildByName("top").active = true;
+                wLeft.getChildByName("bot").active = true;
+                this.wallLeft = wLeft;
+            }
+            
+            var wTop = cc.instantiate(this.gateHor);
+            this.canvas.node.addChild(wTop);
+            wTop.setPosition(cc.randomMinus1To1() * (cc.rand() % this.canvas.node.width / 2), this.canvas.node.height / 2 - this.size);
+            wTop.getChildByName("left").active = true;
+            wTop.getChildByName("right").active = true;
+            this.wallTop = wTop;
+
+            var wBot = cc.instantiate(this.gateHor);
+            this.canvas.node.addChild(wBot);
+            wBot.setPosition(cc.randomMinus1To1() * (cc.rand() % this.canvas.node.width / 2), -this.canvas.node.height / 2 + this.size);
+            wBot.getChildByName("left").active = true;
+            wBot.getChildByName("right").active = true;
+            this.wallBot = wBot;
+        }
+        else {
+            if (dir == Dir.DOWN) {
+                this.wallBot.getChildByName("left").active = false;
+                this.wallBot.getChildByName("right").active = false;
+                
+                this.wallBot.setPosition(this.wallTop.getPosition());
+                
+                this.wallBot.getChildByName("left").active = true;
+                this.wallBot.getChildByName("right").active = true;
+                this.wallTop.destroy();
+                this.wallTop = this.wallBot;
+                this.wallLeft.destroy();
+                this.wallRight.destroy();
+
+                var wBot = cc.instantiate(this.gateHor);
+                this.canvas.node.addChild(wBot);
+                wBot.setPosition(cc.randomMinus1To1() * (cc.rand() % this.canvas.node.width / 2), -this.canvas.node.height / 2 + this.size);
+                wBot.getChildByName("left").active = true;
+                wBot.getChildByName("right").active = true;
+                this.wallBot = wBot;
+            }
+            else {
+                this.wallTop.getChildByName("left").active = false;
+                this.wallTop.getChildByName("right").active = false;
+                
+                this.wallTop.setPosition(this.wallBot.getPosition());
+                
+                this.wallTop.getChildByName("left").active = true;
+                this.wallTop.getChildByName("right").active = true;
+                this.wallBot.destroy();
+                this.wallBot = this.wallTop;
+                this.wallLeft.destroy();
+                this.wallRight.destroy();
+
+                var wTop = cc.instantiate(this.gateHor);
+                this.canvas.node.addChild(wTop);
+                wTop.setPosition(cc.randomMinus1To1() * (cc.rand() % this.canvas.node.width / 2), this.canvas.node.height / 2 - this.size);
+                wTop.getChildByName("left").active = true;
+                wTop.getChildByName("right").active = true;
+                this.wallTop = wTop;
+            }
+
+            var wRight = cc.instantiate(this.gateVer);
+            this.canvas.node.addChild(wRight);
+            wRight.setPosition(this.canvas.node.width / 2 - this.size, cc.randomMinus1To1() * (cc.rand() % this.canvas.node.height /2));
+            wRight.getChildByName("top").active = true;
+            wRight.getChildByName("bot").active = true;
+            this.wallRight = wRight;
+
+            var wLeft = cc.instantiate(this.gateVer);
+            this.canvas.node.addChild(wLeft);
+            wLeft.setPosition(-this.canvas.node.width / 2 + this.size, cc.randomMinus1To1() * (cc.rand() % this.canvas.node.height /2));
+            wLeft.getChildByName("top").active = true;
+            wLeft.getChildByName("bot").active = true;
+            this.wallLeft = wLeft;
         }
     }
 }
