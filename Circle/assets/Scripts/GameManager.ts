@@ -1,7 +1,7 @@
 const {ccclass, property} = cc._decorator;
 
 enum Dir {LEFT, RIGHT, TOP, DOWN};
-
+enum State {MENU, TUTORIAL, INGAME, OVER};
 @ccclass
 export default class NewClass extends cc.Component {
 
@@ -11,12 +11,27 @@ export default class NewClass extends cc.Component {
     @property(cc.Node) player: cc.Node = null;
     @property(cc.Label) countBlock: cc.Label = null;
     @property(cc.Label) labelScore: cc.Label = null;
+    @property speed: number = 0;
 
     //Wall
     @property(cc.Prefab) wallHor: cc.Prefab = null;
     @property(cc.Prefab) wallVer: cc.Prefab = null;
     @property(cc.Prefab) gateVer: cc.Prefab = null;
     @property(cc.Prefab) gateHor: cc.Prefab = null;
+
+    //Menu
+    @property(cc.Node) title: cc.Node = null;
+    @property(cc.Button) playBtn: cc.Button = null;
+    @property(cc.Node) gameOverPanel: cc.Node = null;
+    @property(cc.Node) tutorial: cc.Node = null;
+
+    //Sounds
+    @property(cc.AudioClip) menuSound: cc.AudioClip = null;
+    @property(cc.AudioClip) gameSound: cc.AudioClip = null;
+    @property(cc.AudioClip) scoreSound: cc.AudioClip = null;
+    @property(cc.AudioClip) blockSound: cc.AudioClip = null;
+
+    scaleButton: number;
 
     check: boolean;
     blockContainer: cc.Node[] = [];
@@ -30,6 +45,9 @@ export default class NewClass extends cc.Component {
     wallTop: cc.Node;
     wallBot: cc.Node;
     size: number;
+    ballSpeed: number;
+    
+    state: State;
         
     onLoad() {
         // init logic
@@ -37,7 +55,19 @@ export default class NewClass extends cc.Component {
         this.canvas.node.on(cc.Node.EventType.TOUCH_MOVE, this.isTouchMove.bind(this));
         this.canvas.node.on(cc.Node.EventType.TOUCH_END, this.isTouchEnd.bind(this));
 
+        this.initMap();
+    }
+
+    initMap() {
         // init map
+
+        if (this.wallLeft != null) {
+            this.wallLeft.destroy();
+            this.wallRight.destroy();
+            this.wallTop.destroy();
+            this.wallBot.destroy();
+        }
+
         var wall1 = cc.instantiate(this.gateVer);
         this.canvas.node.addChild(wall1);
         wall1.setPosition(this.canvas.node.width / 2 - wall1.getChildByName("top").width / 2, 0);
@@ -69,9 +99,19 @@ export default class NewClass extends cc.Component {
     }
 
     start() {
+        cc.audioEngine.playEffect(this.menuSound, true);
+
+        this.actionBegin();
+
+        this.player.getComponent("Player").callbackCollider = this.gainScore.bind(this);
+    }
+
+    initGame() {
+        this.scaleButton = 0.0015;
+
         this.circleSet.active = false;
         this.check = false;
-        
+
         this.timer = 0;
         this.timerScale = 0;
 
@@ -80,67 +120,179 @@ export default class NewClass extends cc.Component {
         this.countBlock.node.zIndex = 1;
         this.labelScore.string = "0";
         this.labelScore.node.zIndex = 1;
+        this.title.zIndex = 1;
         this.score = 0;
         this.size = 16;
+    }
 
-        this.player.getComponent("Player").callbackCollider = this.gainScore.bind(this);
+    actionBegin() {
+        this.initGame();
+
+        this.state = State.MENU;
+        this.title.runAction(cc.moveBy(1, cc.p(0, -300)).easing(cc.easeBackOut()));
+        this.playBtn.node.opacity = 0;
+        this.playBtn.node.active = true;
+        this.gameOverPanel.active = false;
+        this.gameOverPanel.opacity = 0;
+        this.gameOverPanel.getComponent("GameOverMenu").reset();
+    }
+
+    PlayButton() {
+        cc.audioEngine.stopAll();
+        cc.audioEngine.playEffect(this.gameSound, true);
+        this.state = State.TUTORIAL;
+        this.title.runAction(cc.moveBy(1, cc.p(0, 300)));        
+        this.playBtn.node.active = false;
+        this.gameOverPanel.active = false;
+        this.gameOverPanel.opacity = 0;
+        this.initMap();
+        this.player.active = true;
+        this.countBlock.node.active = true;
+        this.labelScore.node.active = true;
+        this.tutorial.active = true;
+    }
+
+    PlayAgainButton() {
+        this.state = State.TUTORIAL;
+        this.gameOverPanel.active = false;
+        this.gameOverPanel.opacity = 0;
+        this.gameOverPanel.getComponent("GameOverMenu").reset();
+        this.initMap();
+        this.player.active = true;
+        this.countBlock.node.active = true;
+        this.labelScore.node.active = true;
+
+        this.initGame();
+        
+        this.tutorial.active = true;
+        this.player.setPosition(0, -350);
+        this.player.scale = 1;
+        this.player.getComponent(cc.RigidBody).linearVelocity = new cc.Vec2(this.speed, 0);
+
+        this.labelScore.node.setPosition(this.labelScore.node.getPositionX(), this.labelScore.node.getPositionY() + 200);
+        this.labelScore.node.scale = 1;
+
+        cc.audioEngine.playEffect(this.gameSound, true);
+    }
+
+    HomeButton() {
+        cc.director.loadScene("Game");
     }
 
     isTouchStart(touch) {
-        if (this.blockContainer.length == 3) {
-            return;
+        if (this.state == State.MENU) {
+            this.PlayButton();
         }
-        this.circleSet.active = true;
-        this.circleSet.setPosition(touch.getLocationX() - this.canvas.node.width / 2, touch.getLocationY() - this.canvas.node.height / 2);
-        
+        else if (this.state == State.INGAME || this.state == State.TUTORIAL) {
+            if (this.state == State.TUTORIAL) {
+                this.tutorial.active = false;
+                this.state = State.INGAME;
+            }
+            if (this.blockContainer.length == 3) {
+                return;
+            }
+            this.circleSet.active = true;
+            this.circleSet.setPosition(touch.getLocationX() - this.canvas.node.width / 2, touch.getLocationY() - this.canvas.node.height / 2);
+        }
     }
 
     isTouchMove(touch) {
-        if (this.blockContainer.length == 3) {
-            return;
+        if (this.state == State.MENU) {
+            this.PlayButton();
         }
-        this.circleSet.setPosition(touch.getLocationX() - this.canvas.node.width / 2, touch.getLocationY() - this.canvas.node.height / 2);
+        else if (this.state == State.INGAME || this.state == State.TUTORIAL) {
+            if (this.state == State.TUTORIAL) {
+                this.state = State.INGAME;
+            }
+            if (this.blockContainer.length == 3) {
+                return;
+            }
+            this.circleSet.setPosition(touch.getLocationX() - this.canvas.node.width / 2, touch.getLocationY() - this.canvas.node.height / 2);
+        }
+
+        
     }
 
     isTouchEnd(touch) {
-        if (this.blockContainer.length == 3) {
-            return;
+        if (this.state == State.MENU) {
+            this.PlayButton();
         }
-        if (!this.check) {
+        else if (this.state == State.INGAME || this.state == State.TUTORIAL) {
+            if (this.state == State.TUTORIAL) {
+                this.state = State.INGAME;
+            }
+            if (this.blockContainer.length == 3) {
+                return;
+            }
+            if (!this.check) {
+                this.circleSet.active = false;
+                return;
+            }
+            var Block = cc.instantiate(this.block);
+    
+            setTimeout(this.destroyBlock.bind(this), 3000);
+    
+            this.canvas.node.addChild(Block);
+            Block.setPosition(this.circleSet.getPosition());
             this.circleSet.active = false;
-            return;
+            this.blockContainer.push(Block);
+            this.count += 1;
+            this.countBlock.string = this.count.toString() + " / 3";
+            cc.audioEngine.playEffect(this.blockSound, false);
         }
-        var Block = cc.instantiate(this.block);
-
-        setTimeout(this.destroyBlock.bind(this), 3000);
-
-        this.canvas.node.addChild(Block);
-        Block.setPosition(this.circleSet.getPosition());
-        this.circleSet.active = false;
-        this.blockContainer.push(Block);
-        this.count += 1;
-        this.countBlock.string = this.count.toString() + " / 3";
     }
 
     update(dt) {
-        this.timerScale += dt;
-        if (this.timerScale >= 5) {
-            this.player.scale += 0.2;
-            if (this.player.scale >= 3.4) {
-                this.player.getComponent(cc.RigidBody).linearVelocity = new cc.Vec2(0, 0);
-            }
-            this.timerScale = 0;
+        switch(this.state) {
+            case State.MENU:
+                if (this.playBtn.node.opacity < 255)
+                this.playBtn.node.opacity += 5;
+
+                if (this.playBtn.node.opacity == 255) {
+                    this.playBtn.node.scale += this.scaleButton;
+                    if (this.playBtn.node.scale >= 1.1 || this.playBtn.node.scale <= 1) 
+                        this.scaleButton = -this.scaleButton;
+                }
+                break;
+            
+            case State.TUTORIAL:
+                break;
+            case State.INGAME:
+                this.timerScale += dt;
+                if (this.timerScale >= 5) {
+                    this.player.scale += 0.2;
+                    if (this.player.scale >= 3) {
+                        this.player.getComponent(cc.RigidBody).linearVelocity = new cc.Vec2(0, 0);
+                        this.state = State.OVER;
+                        this.labelScore.node.runAction(cc.moveBy(2, 0, -200));
+                        this.labelScore.node.runAction(cc.scaleBy(2, 2, 2));
+                        cc.audioEngine.stopAll();
+                    }
+                    this.timerScale = 0;
+                }
+        
+                if (cc.pDistance(this.player.getPosition(), this.circleSet.getPosition()) 
+                <= this.player.width / 2 + this.circleSet.width / 2) {
+                    this.check = false;
+                    this.circleSet.color = cc.Color.RED;
+                }
+                else {
+                    this.check = true;
+                    this.circleSet.color = cc.Color.GREEN;
+                }
+                break;
+            case State.OVER:
+                this.gameOverPanel.active = true;
+                if (this.gameOverPanel.opacity != 255) {
+                    this.gameOverPanel.opacity += 51;
+                }
+                if (this.gameOverPanel.opacity >= 255) {
+                    this.gameOverPanel.getComponent("GameOverMenu").isPlay = true;
+                }
+                break;
         }
 
-        if (cc.pDistance(this.player.getPosition(), this.circleSet.getPosition()) 
-        <= this.player.width / 2 + this.circleSet.width / 2) {
-            this.check = false;
-            this.circleSet.color = cc.Color.RED;
-        }
-        else {
-            this.check = true;
-            this.circleSet.color = cc.Color.GREEN;
-        }
+        
     }
 
     destroyBlock() {   
@@ -175,7 +327,7 @@ export default class NewClass extends cc.Component {
         }
         else 
             return;
-
+        cc.audioEngine.playEffect(this.scoreSound, false);
         this.score++;
         this.labelScore.string = this.score.toString();
         this.timerScale = 0;
