@@ -124,7 +124,7 @@ export default class NewClass extends cc.Component {
 
     update(dt) {
         this.timerScale += dt;
-        if (this.timerScale >= 500) {
+        if (this.timerScale >= 5) {
             this.player.scale += 0.2;
             if (this.player.scale >= 3.4) {
                 this.player.getComponent(cc.RigidBody).linearVelocity = new cc.Vec2(0, 0);
@@ -153,13 +153,7 @@ export default class NewClass extends cc.Component {
     }
 
     gainScore() {
-        this.score++;
-        this.labelScore.string = this.score.toString();
-        this.timerScale = 0;
-
-        for (let b of this.blockContainer) {
-            b.active = false;
-        }
+        
 
         var dir: Dir;
 
@@ -179,7 +173,16 @@ export default class NewClass extends cc.Component {
             this.player.setPositionY(this.player.getPositionY() + this.canvas.node.height - this.player.getComponent(cc.CircleCollider).radius - 16);
             dir = Dir.DOWN;
         }
+        else 
+            return;
 
+        this.score++;
+        this.labelScore.string = this.score.toString();
+        this.timerScale = 0;
+
+        for (let b of this.blockContainer) {
+            b.active = false;
+        }
         this.spawnWall(dir);
     }
 
@@ -187,42 +190,39 @@ export default class NewClass extends cc.Component {
         if (dir == Dir.LEFT || dir == Dir.RIGHT) {
             
             if (dir == Dir.RIGHT) {
-                this.wallRight.getChildByName("top").active = false;
-                this.wallRight.getChildByName("bot").active = false;
+                this.wallLeft.getChildByName("top").active = false;
+                this.wallLeft.getChildByName("bot").active = false;
                 
-                this.wallRight.setPosition(this.wallLeft.getPosition());
+                this.wallLeft.setPositionY(this.wallRight.getPositionY());
                 
-                this.wallRight.getChildByName("top").active = true;
-                this.wallRight.getChildByName("bot").active = true;
-                this.wallLeft.destroy();
-                this.wallLeft = this.wallRight;
+                this.wallLeft.getChildByName("top").active = true;
+                this.wallLeft.getChildByName("bot").active = true;
+                this.wallRight.destroy();
                 this.wallTop.destroy();
                 this.wallBot.destroy();
 
                 var wRight = cc.instantiate(this.gateVer);
                 this.canvas.node.addChild(wRight);
-                wRight.setPosition(this.canvas.node.width / 2 - this.size, cc.randomMinus1To1() * (cc.rand() % this.canvas.node.height /2));
+                wRight.setPosition(this.canvas.node.width / 2 - this.size, cc.randomMinus1To1() * (cc.rand() % (this.canvas.node.height / 2 - this.size * 2)));
                 wRight.getChildByName("top").active = true;
                 wRight.getChildByName("bot").active = true;
                 this.wallRight = wRight;
             }
             else {
-                this.wallLeft.getChildByName("top").active = false;
-                this.wallLeft.getChildByName("bot").active = false;
+                this.wallRight.getChildByName("top").active = false;
+                this.wallRight.getChildByName("bot").active = false;
                 
-                this.wallLeft.setPosition(this.wallRight.getPosition());
-                cc.log(this.wallLeft.getPosition());
-                
-                this.wallLeft.getChildByName("top").active = true;
-                this.wallLeft.getChildByName("bot").active = true;
-                this.wallRight.destroy();
-                this.wallRight = this.wallLeft;
+                this.wallRight.setPositionY(this.wallLeft.getPositionY());
+
+                this.wallRight.getChildByName("top").active = true;
+                this.wallRight.getChildByName("bot").active = true;
+                this.wallLeft.destroy();
                 this.wallTop.destroy();
                 this.wallBot.destroy();
 
                 var wLeft = cc.instantiate(this.gateVer);
                 this.canvas.node.addChild(wLeft);
-                wLeft.setPosition(-this.canvas.node.width / 2 + this.size, cc.randomMinus1To1() * (cc.rand() % this.canvas.node.height /2));
+                wLeft.setPosition(-this.canvas.node.width / 2 + this.size, cc.randomMinus1To1() * (cc.rand() % (this.canvas.node.height / 2 - this.size * 2)));
                 wLeft.getChildByName("top").active = true;
                 wLeft.getChildByName("bot").active = true;
                 this.wallLeft = wLeft;
@@ -230,55 +230,53 @@ export default class NewClass extends cc.Component {
             
             var wTop = cc.instantiate(this.gateHor);
             this.canvas.node.addChild(wTop);
-            wTop.setPosition(cc.randomMinus1To1() * (cc.rand() % this.canvas.node.width / 2), this.canvas.node.height / 2 - this.size);
+            wTop.setPosition(cc.randomMinus1To1() * ((cc.rand() % this.canvas.node.width / 2 - this.size * 2)), this.canvas.node.height / 2 - this.size);
             wTop.getChildByName("left").active = true;
             wTop.getChildByName("right").active = true;
             this.wallTop = wTop;
 
             var wBot = cc.instantiate(this.gateHor);
             this.canvas.node.addChild(wBot);
-            wBot.setPosition(cc.randomMinus1To1() * (cc.rand() % this.canvas.node.width / 2), -this.canvas.node.height / 2 + this.size);
+            wBot.setPosition(cc.randomMinus1To1() * ((cc.rand() % this.canvas.node.width / 2 - this.size * 2)), -this.canvas.node.height / 2 + this.size);
             wBot.getChildByName("left").active = true;
             wBot.getChildByName("right").active = true;
             this.wallBot = wBot;
         }
         else {
             if (dir == Dir.DOWN) {
-                this.wallBot.getChildByName("left").active = false;
-                this.wallBot.getChildByName("right").active = false;
+                this.wallTop.getChildByName("left").active = false;
+                this.wallTop.getChildByName("right").active = false;
                 
-                this.wallBot.setPosition(this.wallTop.getPosition());
+                this.wallTop.setPositionX(this.wallBot.getPositionX());
                 
-                this.wallBot.getChildByName("left").active = true;
-                this.wallBot.getChildByName("right").active = true;
-                this.wallTop.destroy();
-                this.wallTop = this.wallBot;
+                this.wallTop.getChildByName("left").active = true;
+                this.wallTop.getChildByName("right").active = true;
+                this.wallBot.destroy();
                 this.wallLeft.destroy();
                 this.wallRight.destroy();
 
                 var wBot = cc.instantiate(this.gateHor);
                 this.canvas.node.addChild(wBot);
-                wBot.setPosition(cc.randomMinus1To1() * (cc.rand() % this.canvas.node.width / 2), -this.canvas.node.height / 2 + this.size);
+                wBot.setPosition(cc.randomMinus1To1() * ((cc.rand() % this.canvas.node.width / 2 - this.size * 2)), -this.canvas.node.height / 2 + this.size);
                 wBot.getChildByName("left").active = true;
                 wBot.getChildByName("right").active = true;
                 this.wallBot = wBot;
             }
             else {
-                this.wallTop.getChildByName("left").active = false;
-                this.wallTop.getChildByName("right").active = false;
+                this.wallBot.getChildByName("left").active = false;
+                this.wallBot.getChildByName("right").active = false;
                 
-                this.wallTop.setPosition(this.wallBot.getPosition());
+                this.wallBot.setPositionX(this.wallTop.getPositionX());
                 
-                this.wallTop.getChildByName("left").active = true;
-                this.wallTop.getChildByName("right").active = true;
-                this.wallBot.destroy();
-                this.wallBot = this.wallTop;
+                this.wallBot.getChildByName("left").active = true;
+                this.wallBot.getChildByName("right").active = true;
+                this.wallTop.destroy();
                 this.wallLeft.destroy();
                 this.wallRight.destroy();
 
                 var wTop = cc.instantiate(this.gateHor);
                 this.canvas.node.addChild(wTop);
-                wTop.setPosition(cc.randomMinus1To1() * (cc.rand() % this.canvas.node.width / 2), this.canvas.node.height / 2 - this.size);
+                wTop.setPosition(cc.randomMinus1To1() * ((cc.rand() % this.canvas.node.width / 2 - this.size * 2)), this.canvas.node.height / 2 - this.size);
                 wTop.getChildByName("left").active = true;
                 wTop.getChildByName("right").active = true;
                 this.wallTop = wTop;
@@ -286,14 +284,14 @@ export default class NewClass extends cc.Component {
 
             var wRight = cc.instantiate(this.gateVer);
             this.canvas.node.addChild(wRight);
-            wRight.setPosition(this.canvas.node.width / 2 - this.size, cc.randomMinus1To1() * (cc.rand() % this.canvas.node.height /2));
+            wRight.setPosition(this.canvas.node.width / 2 - this.size, cc.randomMinus1To1() * ((cc.rand() % this.canvas.node.height / 2 - this.size * 2)));
             wRight.getChildByName("top").active = true;
             wRight.getChildByName("bot").active = true;
             this.wallRight = wRight;
 
             var wLeft = cc.instantiate(this.gateVer);
             this.canvas.node.addChild(wLeft);
-            wLeft.setPosition(-this.canvas.node.width / 2 + this.size, cc.randomMinus1To1() * (cc.rand() % this.canvas.node.height /2));
+            wLeft.setPosition(-this.canvas.node.width / 2 + this.size, cc.randomMinus1To1() * ((cc.rand() % this.canvas.node.height / 2 - this.size * 2)));
             wLeft.getChildByName("top").active = true;
             wLeft.getChildByName("bot").active = true;
             this.wallLeft = wLeft;
