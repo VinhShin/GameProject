@@ -18,10 +18,11 @@ export default class NewClass extends cc.Component {
 
     distance: number;
 
+    hold: boolean;
+
     //blocks
     block1: cc.Node;
     block2: cc.Node;
-    block3: cc.Node;
 
     onLoad() {
         // init logic
@@ -37,26 +38,26 @@ export default class NewClass extends cc.Component {
         this.block2 = cc. instantiate(this.block);
         this.canvas.node.addChild(this.block2);
         this.block2.setPosition(cc.randomMinus1To1() * (cc.rand() % cc.director.getWinSize().width - this.block1.width / 2), -(cc.rand() % 400));
-    
-        this.block3 = cc.instantiate(this.block);
-        this.canvas.node.addChild(this.block3);
-        this.block3.active = false;
 
-
+        
     }
 
     start() {
         this.player.getComponent("Player").callbackCollider = this.changeBlock.bind(this);
 
         this.distance = 232;
+        this.hold = false;
     }
 
     isTouchStart(touch) {
+        this.hold = true;
         this.speedRotation = -this.speedRotation;
     }
 
     isTouchEnd(touch) {
-        this.speedRotation = -this.speedRotation;
+        if(this.hold) {
+            this.speedRotation = -this.speedRotation;
+        }
     }
 
     isTouchMove(touch) {
@@ -70,23 +71,16 @@ export default class NewClass extends cc.Component {
         else {
             this.speedRotation = 100;
         }
-        this.block2.getComponent(cc.BoxCollider).enabled = false;
-        // var t = this.block1;
-        // this.block1 = this.block2;
-        // this.block2 = this.block3;
-        // this.block3 = t;
+        var t = this.block1;
 
-        // this.block2.active = true;
-        // this.block2.setPosition(cc.randomMinus1To1() * (cc.rand() % cc.director.getWinSize().width - this.block1.width / 2), -(cc.rand() % 400));
-        // this.block3.active = false;
-
-        this.block1.destroy();
         this.block1 = this.block2;
 
-        this.block2 = cc. instantiate(this.block);
-        this.canvas.node.addChild(this.block2);
-        this.block2.setPosition(cc.randomMinus1To1() * (cc.rand() % cc.director.getWinSize().width - this.block1.width / 2), -(cc.rand() % 400));
+        this.block2 = t;
 
+        this.block2.setPosition(cc.randomMinus1To1() * (cc.rand() % cc.director.getWinSize().width - this.block1.width / 2), -(cc.rand() % 400));
+        this.hold = false;
+        this.block2.getComponent(cc.BoxCollider).enabled = true;
+        this.block2.rotation = 0;
     }
 
     update(dt) {

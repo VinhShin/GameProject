@@ -15,7 +15,9 @@ export default class NewClass extends cc.Component {
         if (this.callbackCollider != null) {
             this.callbackCollider();
         }
+        cc.log("Collision");
 
+        other.getComponent(cc.BoxCollider).enabled = false;
         this.getComponent(cc.RigidBody).linearVelocity = new cc.Vec2(0, 0);
     }
 }
