@@ -180,10 +180,7 @@ export default class NewClass extends cc.Component {
     }
 
     isTouchStart(touch) {
-        if (this.state == State.MENU) {
-            this.PlayButton();
-        }
-        else if (this.state == State.INGAME || this.state == State.TUTORIAL) {
+        if (this.state == State.INGAME || this.state == State.TUTORIAL) {
             if (this.state == State.TUTORIAL) {
                 this.tutorial.active = false;
                 this.state = State.INGAME;
@@ -197,10 +194,7 @@ export default class NewClass extends cc.Component {
     }
 
     isTouchMove(touch) {
-        if (this.state == State.MENU) {
-            this.PlayButton();
-        }
-        else if (this.state == State.INGAME || this.state == State.TUTORIAL) {
+        if (this.state == State.INGAME || this.state == State.TUTORIAL) {
             if (this.state == State.TUTORIAL) {
                 this.state = State.INGAME;
             }
@@ -209,15 +203,10 @@ export default class NewClass extends cc.Component {
             }
             this.circleSet.setPosition(touch.getLocationX() - this.canvas.node.width / 2, touch.getLocationY() - this.canvas.node.height / 2);
         }
-
-        
     }
 
     isTouchEnd(touch) {
-        if (this.state == State.MENU) {
-            this.PlayButton();
-        }
-        else if (this.state == State.INGAME || this.state == State.TUTORIAL) {
+        if (this.state == State.INGAME || this.state == State.TUTORIAL) {
             if (this.state == State.TUTORIAL) {
                 this.state = State.INGAME;
             }
