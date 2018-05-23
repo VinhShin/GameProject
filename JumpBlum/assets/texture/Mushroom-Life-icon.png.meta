@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "76a77899-6471-4120-813c-07c9fbc1361c",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "Mushroom-Life-icon": {
+      "ver": "1.0.3",
+      "uuid": "fd15c7b1-985b-4941-a854-7d6dbf4d6cc4",
+      "rawTextureUuid": "76a77899-6471-4120-813c-07c9fbc1361c",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0.5,
+      "trimX": 0,
+      "trimY": 1,
+      "width": 256,
+      "height": 253,
+      "rawWidth": 256,
+      "rawHeight": 256,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
