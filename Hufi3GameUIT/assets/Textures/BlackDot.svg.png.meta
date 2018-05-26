@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "83695bcf-7725-4fc5-a916-d3d1ef64a4e8",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "BlackDot.svg": {
+      "ver": "1.0.3",
+      "uuid": "0ef7b75c-e78c-4c47-a33c-e9053ee7df98",
+      "rawTextureUuid": "83695bcf-7725-4fc5-a916-d3d1ef64a4e8",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 375,
+      "trimY": 375,
+      "width": 1250,
+      "height": 1250,
+      "rawWidth": 2000,
+      "rawHeight": 2000,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
