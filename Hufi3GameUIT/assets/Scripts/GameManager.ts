@@ -26,7 +26,6 @@ export default class NewClass extends cc.Component {
     @property(cc.Label) labelScore: cc.Label = null;
     @property(cc.Label) bestLabelScore: cc.Label = null;
     @property(cc.Node) credits : cc.Node = null;
-    @property(cc.Node) wall : cc.Node = null;
     @property(cc.Node) backgroundMenu : cc.Node = null;
     @property(cc.Node) shopIAP : cc.Node = null;
     @property(cc.Node) BackMenu : cc.Node = null;
@@ -161,7 +160,6 @@ export default class NewClass extends cc.Component {
         if(this.checkSound)
             cc.audioEngine.playEffect(this.gameSound, true);
 
-        this.spawnMap();
         this.state = State.INGAME;
     
         this.playButton.node.active = false;
@@ -176,8 +174,16 @@ export default class NewClass extends cc.Component {
 
 
         this.labelScore.node.active = true;
-
-       
+        this.spawnMap();
+        // var f = cc.instantiate(this.friend);
+        // this.canvas.node.addChild(f);
+        // do
+        // {
+        //     f.setPositionX(cc.randomMinus1To1() * (cc.rand() % (this.canvas.node.width / 2 - f.width)));
+        //     f.setPositionY(cc.randomMinus1To1() * (cc.rand() % (this.canvas.node.width / 2 - f.height)));
+        // } while (cc.pDistance(f.getPosition(), this.player.getPosition()) <= f.getComponent(cc.CircleCollider).radius + this.player.getComponent(cc.CircleCollider).radius);
+        
+        
     }
     showTutorial(){
            
@@ -194,10 +200,6 @@ export default class NewClass extends cc.Component {
         cc.director.loadScene("Game")
     }
     PlayAgainButton() {
-        
-        this.wall.children[4].active = true;
-        this.wall.children[5].active = true;
-        this.wall.children[6].active = true;
         this.player.groupIndex = 4;
         this.player.opacity = 100;
         this.timeComeBack = 2;
@@ -289,22 +291,7 @@ export default class NewClass extends cc.Component {
     }
 
     destroyBlock() {
-        this.blockContainer[0].destroy();
-        this.blockContainer.reverse();
-        this.blockContainer.pop();
-        this.blockContainer.reverse();
-        this.count--;
 
-        if(!this.wall.children[6].active){
-            this.wall.children[6].active = true;
-        }
-        else if(!this.wall.children[5].active){
-            this.wall.children[5].active = true;
-        }
-        else if(!this.wall.children[4].active){
-            this.wall.children[4].active = true;
-        
-        }
         
     }
 
@@ -488,8 +475,7 @@ export default class NewClass extends cc.Component {
                 break;
             
             case State.GAMEOVER:
-                this.preLinearVelocity = this.player.getComponent(cc.RigidBody).linearVelocity;
-                this.player.getComponent(cc.RigidBody).linearVelocity = cc.v2(0, 0);
+                
                 this.gameOverPanel.active = true;
                 if (this.gameOverPanel.opacity != 255) {
                     this.gameOverPanel.opacity += 51;
