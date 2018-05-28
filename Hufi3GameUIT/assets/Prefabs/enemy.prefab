@@ -75,10 +75,10 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "f301f5fe-3883-4991-8508-339d17f56f4f"
+      "__uuid__": "6776b311-7b96-4288-a79a-50a26f780070"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",

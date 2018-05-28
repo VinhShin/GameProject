@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "2360bd6e-d3e4-47f5-b3dd-e4ed36220e2d",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "logoHUFIHackaton": {
+      "ver": "1.0.3",
+      "uuid": "49db46b5-61ff-460f-964d-7dc3400b15f5",
+      "rawTextureUuid": "2360bd6e-d3e4-47f5-b3dd-e4ed36220e2d",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 7,
+      "offsetY": 11.5,
+      "trimX": 87,
+      "trimY": 33,
+      "width": 1736,
+      "height": 778,
+      "rawWidth": 1896,
+      "rawHeight": 867,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

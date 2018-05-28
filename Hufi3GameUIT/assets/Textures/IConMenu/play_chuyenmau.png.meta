@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "99fa0602-1a88-4c5f-8b7e-1f6410fc6d2a",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "play_chuyenmau": {
+      "ver": "1.0.3",
+      "uuid": "bb1e1893-f7bf-44c2-b865-90abb3a373d9",
+      "rawTextureUuid": "99fa0602-1a88-4c5f-8b7e-1f6410fc6d2a",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": -138,
+      "trimX": 220,
+      "trimY": 1004,
+      "width": 640,
+      "height": 188,
+      "rawWidth": 1080,
+      "rawHeight": 1920,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

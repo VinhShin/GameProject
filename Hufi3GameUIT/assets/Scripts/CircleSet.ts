@@ -3,7 +3,6 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class NewClass extends cc.Component {
 
-    @property(cc.Node) player: cc.Node = null;
     @property speedRotation: number = 0;
 
     onLoad() {

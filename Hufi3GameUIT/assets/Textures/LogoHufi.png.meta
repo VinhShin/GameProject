@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "8dc1f1e8-fab0-4cc2-a314-28ad6545dd0e",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "LogoHufi": {
+      "ver": "1.0.3",
+      "uuid": "6acf7fa7-b80c-4757-bb83-87c1616bb23b",
+      "rawTextureUuid": "8dc1f1e8-fab0-4cc2-a314-28ad6545dd0e",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 3,
+      "offsetY": 0,
+      "trimX": 8,
+      "trimY": 8,
+      "width": 683,
+      "height": 232,
+      "rawWidth": 693,
+      "rawHeight": 248,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
