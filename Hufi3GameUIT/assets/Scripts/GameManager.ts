@@ -136,7 +136,7 @@ export default class NewClass extends cc.Component {
     }
 
     PlayButton() {
-
+        this.title.runAction(cc.moveBy(1, cc.p(0, 600))); 
         cc.eventManager.addListener({
             event: cc.EventListener.KEYBOARD,
             onKeyPressed: function(keyCode, event) {
@@ -180,7 +180,7 @@ export default class NewClass extends cc.Component {
        
     }
     showTutorial(){
-        this.title.runAction(cc.moveBy(1, cc.p(0, 600)));    
+           
     }
     resumeGame(){
         cc.director.resume();
@@ -194,7 +194,7 @@ export default class NewClass extends cc.Component {
         cc.director.loadScene("Game")
     }
     PlayAgainButton() {
-
+        
         this.wall.children[4].active = true;
         this.wall.children[5].active = true;
         this.wall.children[6].active = true;
@@ -354,7 +354,7 @@ export default class NewClass extends cc.Component {
             var y = 0;
             while(true){
                 x = cc.randomMinus1To1() * (cc.rand() % (this.canvas.node.width / 2 - e.width));
-                y = cc.randomMinus1To1() * (cc.rand() % (this.canvas.node.height / 2 - e.height));
+                y = cc.randomMinus1To1() * (cc.rand() % (this.canvas.node.width / 2 - e.height));
                 var check = 0;
                 
                 for(let item of list){
@@ -375,7 +375,7 @@ export default class NewClass extends cc.Component {
         }
         else{
             return cc.v2(cc.randomMinus1To1() * (cc.rand() % (this.canvas.node.width / 2 - e.width)),
-            cc.randomMinus1To1() * (cc.rand() % (this.canvas.node.height / 2 - e.height)))
+            cc.randomMinus1To1() * (cc.rand() % (this.canvas.node.width / 2 - e.height)))
         }
     }
     gainScore() {
