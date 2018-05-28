@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "b1ecc14e-d68f-477e-b7f9-84f489f73c59",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "Invincibility_Mushroom": {
+      "ver": "1.0.3",
+      "uuid": "5dfecaa4-df28-4987-a14d-7f853e69df0e",
+      "rawTextureUuid": "b1ecc14e-d68f-477e-b7f9-84f489f73c59",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 4,
+      "offsetY": -2,
+      "trimX": 63,
+      "trimY": 64,
+      "width": 362,
+      "height": 356,
+      "rawWidth": 480,
+      "rawHeight": 480,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
